@@ -35,19 +35,10 @@ public class ManageCommand extends Command {
                             String input = args[1];
                             ServerSection section = plugin.getSectionManager().getByName(input);
                             if (section != null) {
-                                if (args.length == 3) {
-                                    ProxiedPlayer player = plugin.getProxy().getPlayer(args[2]);
-                                    if (player != null) {
-                                        ConnectionIntent.simple(plugin, player, section);
-                                    } else {
-                                        sender.sendMessage(new ComponentBuilder("There is no player with that name connected to this proxy").color(ChatColor.RED).create());
-                                    }
+                                if (sender instanceof ProxiedPlayer) {
+                                    ConnectionIntent.simple(plugin, (ProxiedPlayer) sender, section);
                                 } else {
-                                    if (sender instanceof ProxiedPlayer) {
-                                        ConnectionIntent.simple(plugin, (ProxiedPlayer) sender, section);
-                                    } else {
-                                        sender.sendMessage(new ComponentBuilder("This command variant can only be executed by a player").color(ChatColor.RED).create());
-                                    }
+                                    sender.sendMessage(new ComponentBuilder("This command variant can only be executed by a player").color(ChatColor.RED).create());
                                 }
                             } else {
                                 MessageUtils.send(sender, plugin.getSettings().getMessagesProps().getUnknownSectionMessage());
