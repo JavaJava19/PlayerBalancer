@@ -23,21 +23,11 @@ public class MainCommand implements CommandExecutor {
                     case "connect": {
                         if (args.length >= 2) {
                             String input = args[1];
-                            if (args.length >= 3) {
-                                Player player = plugin.getServer().getPlayer(args[2]);
-                                if (player != null) {
-                                    plugin.getManager().connectPlayer(player, input);
-                                    sender.sendMessage(Color.translate(plugin.getConfig().getString("RequestSent")));
-                                } else {
-                                    sender.sendMessage(Color.translate(plugin.getConfig().getString("NoPlayer")));
-                                }
+                            if (sender instanceof Player) {
+                                plugin.getManager().connectPlayer((Player) sender, input);
+                                sender.sendMessage(Color.translate(plugin.getConfig().getString("RequestSent")));
                             } else {
-                                if (sender instanceof Player) {
-                                    plugin.getManager().connectPlayer((Player) sender, input);
-                                    sender.sendMessage(Color.translate(plugin.getConfig().getString("RequestSent")));
-                                } else {
-                                    sender.sendMessage(Color.translate(plugin.getConfig().getString("ConsoleError")));
-                                }
+                                sender.sendMessage(Color.translate(plugin.getConfig().getString("ConsoleError")));
                             }
                         } else {
                             sender.sendMessage(ChatColor.RED + "Usage: /section connect <section> [player]");
